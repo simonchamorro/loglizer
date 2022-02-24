@@ -2,7 +2,7 @@
 The implementation of the LocalOutlierFactor for anomaly detection.
 
 Authors:
-    Hans Aschenloher
+    Johann Aschenloher
 
 Reference:
     LOF: Identifying Density-Based Local Outliers, by Markus M. Breunig, Hans-Peter Kriegel, Raymond T. Ng, Jörg Sander.
@@ -14,7 +14,7 @@ import numpy as np
 from sklearn.neighbors import LocalOutlierFactor as LOF
 from ..utils import metrics
 
-class LocalOutlinerFactor(LOF):
+class LocalOutlierFactor(LOF):
     def __init__(self, n_neighbors=10, algorithm='auto', contamination='auto', leaf_size=30, metric='minkowski', p=2):
         """
         Auguments
@@ -37,9 +37,9 @@ class LocalOutlinerFactor(LOF):
             For more information, please visit https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html
 	    """
 
-        super(LocalOutlinerFactor, self).__init__(n_neighbors=n_neighbors, algorithm=algorithm, contamination=contamination, leaf_size=leaf_size, metric=metric, p=p)
+        super(LocalOutlierFactor, self).__init__(n_neighbors=n_neighbors, algorithm=algorithm, contamination=contamination, leaf_size=leaf_size, metric=metric, p=p)
 
-    def fit(self, X):
+    def fit(self, X, y=None):
         """
         Auguments
         ---------
@@ -47,7 +47,7 @@ class LocalOutlinerFactor(LOF):
         """
 
         print('====== Model summary ======')
-        super(LocalOutlinerFactor, self).fit(X)
+        super(LocalOutlierFactor, self).fit(X)
 
     def predict(self, X):
         """ Predict anomalies with mined invariants
@@ -61,7 +61,8 @@ class LocalOutlinerFactor(LOF):
             y_pred: ndarray, the predicted label vector of shape (num_instances,)
         """
 
-        y_pred = super(LocalOutlinerFactor, self).predict(X)
+        self.novelty = True
+        y_pred = super(LocalOutlierFactor, self).predict(X)
         y_pred = np.where(y_pred > 0, 0, 1)
         return y_pred
 

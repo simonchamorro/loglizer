@@ -10,10 +10,14 @@ from loglizer.dataloader import HDFS
 
 run_models = ['PCA', 'InvariantsMiner', 'LogClustering', 'IsolationForest', 'LR',
               'SVM', 'DecisionTree']
-struct_log = '../data/HDFS/HDFS.npz' # The benchmark dataset
+#struct_log = '../data/HDFS/HDFS_100k.log_structured.csv'
+#label_file = '../data/HDFS/anomaly_label.csv'
+struct_log = '../data/HDFS/test_hdfs.csv_structured.csv'
+label_file = '../data/HDFS/test_label.csv'
 
 if __name__ == '__main__':
     (x_tr, y_train), (x_te, y_test) = HDFS.loadDataset(struct_log,
+                                                label_file=label_file,
                                                 window='session',
                                                 train_ratio=0.5,
                                                 split_type='uniform')

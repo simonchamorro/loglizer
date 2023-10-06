@@ -129,7 +129,8 @@ class FeatureExtractor(object):
         X_df = pd.DataFrame(X_counts)
         X_df = X_df.fillna(0)
         empty_events = set(self.events) - set(X_df.columns)
-        X_df = pd.concat([X_df, pd.DataFrame(np.zeros((len(X_df),len(empty_events))), columns=empty_events)], axis=1)
+        for event in empty_events:
+            X_df[event] = [0] * len(X_df)
         X = X_df[self.events].values
         if self.oov:
             oov_vec = np.sum(X_df[X_df.columns.difference(self.events)].values > 0, axis=1)
